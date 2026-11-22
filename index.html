@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>10 → 500K | 365 Günlük Büyüme Planı</title>
+    <title>10 → 500K | 365 İşlemlik Büyüme Planı</title>
     
     <!-- iOS Safari PWA (Ana Ekrana Ekle) Meta Etiketleri -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -88,12 +88,12 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     <h1 class="text-base font-bold tracking-tight text-white">10 → 500.000 USDT</h1>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-0.5">365 Günlük Bileşik Büyüme (%3,01 / Gün)</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">365 İşlemlik Bileşik Büyüme (%3,01 / İşlem)</p>
             </div>
             
             <button onclick="openSettingsModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700/80 text-xs font-medium text-slate-200 transition active:scale-95">
-                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span id="headerStartDateLabel">17 Kas 2026</span>
+                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                <span>Ayarlar</span>
             </button>
         </div>
     </header>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="text-right">
                     <span class="text-[11px] text-slate-400 block">İlerleme</span>
-                    <span id="summaryCompletedCount" class="text-sm font-bold text-emerald-400">0 / 365 Gün</span>
+                    <span id="summaryCompletedCount" class="text-sm font-bold text-emerald-400">0 / 365 İşlem</span>
                 </div>
             </div>
             <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
@@ -124,10 +124,10 @@
         <!-- SEKMELER (TABS) -->
         <nav class="grid grid-cols-3 gap-1.5 p-1 bg-slate-900/90 border border-slate-800 rounded-2xl">
             <button onclick="switchTab('focus')" id="tab-focus" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all bg-emerald-500 text-slate-950 shadow-sm">
-                Bugün & Sıra
+                Sıradaki İşlem
             </button>
             <button onclick="switchTab('all')" id="tab-all" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all text-slate-400 hover:text-white">
-                Tüm 365 Gün
+                Tüm 365 İşlem
             </button>
             <button onclick="switchTab('stats')" id="tab-stats" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all text-slate-400 hover:text-white">
                 Analiz & Grafik
@@ -142,26 +142,26 @@
                     <span id="heroBadge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         SIRADAKİ HEDEF
                     </span>
-                    <span id="heroDateText" class="text-xs font-medium text-slate-300">17 Kasım 2026</span>
+                    <span id="heroDateText" class="text-xs font-medium text-slate-300">İşlem 1 / 365</span>
                 </div>
 
                 <div class="flex items-baseline justify-between mb-4">
                     <div>
-                        <p class="text-xs text-slate-400 font-medium" id="heroDayTitle">1. Gün Hedef Bakiye</p>
+                        <p class="text-xs text-slate-400 font-medium" id="heroDayTitle">1. İşlem Hedef Bakiye</p>
                         <div class="flex items-baseline gap-2 mt-1">
                             <h2 id="heroTargetBalance" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">10,30</h2>
                             <span class="text-sm font-bold text-emerald-400">USDT</span>
                         </div>
                     </div>
                     <div class="text-right bg-slate-950/60 px-3 py-2 rounded-2xl border border-slate-800">
-                        <span class="text-[10px] text-slate-400 block">Günlük Kâr</span>
+                        <span class="text-[10px] text-slate-400 block">İşlem Kârı</span>
                         <span id="heroDailyProfit" class="text-sm font-bold text-emerald-400">+0,30 USDT</span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2.5 mb-5 text-xs">
                     <div class="bg-slate-950/50 rounded-xl p-2.5 border border-slate-800/80">
-                        <span class="text-slate-400 block text-[11px]">Gün Başlangıcı</span>
+                        <span class="text-slate-400 block text-[11px]">İşlem Başlangıcı</span>
                         <span id="heroStartBalance" class="font-semibold text-slate-200 mt-0.5 block">10,00 USDT</span>
                     </div>
                     <div class="bg-slate-950/50 rounded-xl p-2.5 border border-slate-800/80">
@@ -172,20 +172,8 @@
 
                 <button id="heroCompleteBtn" onclick="toggleHeroDay()" class="w-full py-3.5 px-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    <span id="heroBtnText">1. Günü Tamamlandı İşaretle</span>
+                    <span id="heroBtnText">1. İşlemi Tamamlandı İşaretle</span>
                 </button>
-            </div>
-
-            <!-- Geciken / Bekleyen Günler Uyarısı (Varsa) -->
-            <div id="overdueSection" class="hidden space-y-2.5">
-                <div class="flex items-center justify-between px-1">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        Tamamlanmayı Bekleyen Önceki Günler
-                    </h3>
-                    <span id="overdueCountBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300">0</span>
-                </div>
-                <div id="overdueList" class="space-y-2"></div>
             </div>
 
             <!-- Yaklaşan 7 Gün Önizlemesi -->
@@ -208,7 +196,7 @@
             <!-- Arama ve Hızlı Filtre -->
             <div class="flex gap-2">
                 <div class="relative flex-1">
-                    <input type="number" id="daySearchInput" oninput="renderAllDaysList()" placeholder="Gün no ara (ör: 45, 180)..." class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+                    <input type="number" id="daySearchInput" oninput="renderAllDaysList()" placeholder="İşlem no ara (ör: 45, 180)..." class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
                     <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
                 <button id="hideCompletedBtn" onclick="toggleHideCompleted()" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300 hover:border-slate-700 whitespace-nowrap">
@@ -228,12 +216,12 @@
                     <span class="text-sm font-bold text-white mt-1 block">10 → 500.000 USDT</span>
                 </div>
                 <div class="glass-card rounded-2xl p-3.5">
-                    <span class="text-[11px] text-slate-400 block">Gerekli Günlük Oran</span>
+                    <span class="text-[11px] text-slate-400 block">Gerekli İşlem Başı Oran</span>
                     <span class="text-sm font-bold text-emerald-400 mt-1 block">%3,0087 Bileşik</span>
                 </div>
                 <div class="glass-card rounded-2xl p-3.5">
-                    <span class="text-[11px] text-slate-400 block">Kalan Gün Sayısı</span>
-                    <span id="statRemainingDays" class="text-sm font-bold text-white mt-1 block">365 Gün</span>
+                    <span class="text-[11px] text-slate-400 block">Kalan İşlem Sayısı</span>
+                    <span id="statRemainingDays" class="text-sm font-bold text-white mt-1 block">365 İşlem</span>
                 </div>
                 <div class="glass-card rounded-2xl p-3.5">
                     <span class="text-[11px] text-slate-400 block">Hedefe Kalan Tutar</span>
@@ -244,7 +232,7 @@
             <!-- Büyüme Eğrisi Grafiği -->
             <div class="glass-card rounded-2xl p-4">
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">365 Günlük Bileşik Büyüme Eğrisi</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">365 İşlemlik Bileşik Büyüme Eğrisi</h3>
                     <span class="text-[11px] text-emerald-400 font-medium">Üstel Artış</span>
                 </div>
                 <div class="w-full h-48 relative">
@@ -254,7 +242,7 @@
 
             <!-- Aylık Kilometre Taşları Özeti -->
             <div class="glass-card rounded-2xl p-4 space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Aylık Ara Hedefler (30 Günlük Periyot)</h3>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Ara Hedefler (30 İşlemlik Periyot)</h3>
                 <div id="monthlyMilestonesList" class="divide-y divide-slate-800/80 text-xs"></div>
             </div>
         </div>
@@ -273,18 +261,6 @@
 
             <div class="space-y-3">
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1.5">1. Günün Başlangıç Tarihi</label>
-                    <input type="date" id="startDateInput" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
-                    <p class="text-[11px] text-slate-400 mt-1">Seçtiğiniz tarihten itibaren 365 gün otomatik takvimlenir.</p>
-                </div>
-
-                <div class="pt-2 border-t border-slate-800">
-                    <button onclick="saveSettings()" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition">
-                        Tarihi Kaydet ve Güncelle
-                    </button>
-                </div>
-
-                <div class="pt-2">
                     <button id="resetConfirmBtn" onclick="handleResetProgress()" class="w-full py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-semibold text-xs transition">
                         Tüm İşaretlemeleri Sıfırla
                     </button>
@@ -297,7 +273,7 @@
     <div id="toastNotification" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform translate-y-3">
         <div class="bg-slate-800 border border-emerald-500/50 text-white px-4 py-2.5 rounded-2xl shadow-xl text-xs font-semibold flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span id="toastMessage">Gün tamamlandı!</span>
+            <span id="toastMessage">İşlem tamamlandı!</span>
         </div>
     </div>
 
@@ -306,21 +282,11 @@
         const START_BALANCE = 10.00;
         const TARGET_BALANCE = 500000.00;
         const TOTAL_DAYS = 365;
-        const DAILY_RATE = Math.pow(TARGET_BALANCE / START_BALANCE, 1 / TOTAL_DAYS) - 1; // ~0.03008696
-
-        const TURKISH_MONTHS = [
-            "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
-            "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
-        ];
-        const TURKISH_MONTHS_SHORT = [
-            "Oca", "Şub", "Mar", "Nis", "May", "Haz",
-            "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"
-        ];
+        const DAILY_RATE = Math.pow(TARGET_BALANCE / START_BALANCE, 1 / TOTAL_DAYS) - 1; // ~0.03008696 (işlem başına)
 
         // Uygulama Durumu (LocalStorage)
         let appState = {
-            startDate: "2026-11-17", // Yarın varsayılan
-            completedDays: [],       // Tamamlanan gün numaraları [1, 2, ...]
+                completedDays: [],       // Tamamlanan işlem numaraları [1, 2, ...]
             bannerDismissed: false
         };
 
@@ -337,54 +303,24 @@
             });
         }
 
-        // Tarih Yardımcıları
-        function parseLocalDate(dateStr) {
-            const [y, m, d] = dateStr.split('-').map(Number);
-            return new Date(y, m - 1, d);
-        }
-
-        function addDays(baseDate, daysToAdd) {
-            const d = new Date(baseDate);
-            d.setDate(d.getDate() + daysToAdd);
-            return d;
-        }
-
-        function formatTurkishDate(dateObj, shortMonth = false) {
-            const day = dateObj.getDate();
-            const month = shortMonth ? TURKISH_MONTHS_SHORT[dateObj.getMonth()] : TURKISH_MONTHS[dateObj.getMonth()];
-            const year = dateObj.getFullYear();
-            return `${day} ${month} ${year}`;
-        }
-
-        function isSameDay(d1, d2) {
-            return d1.getFullYear() === d2.getFullYear() &&
-                   d1.getMonth() === d2.getMonth() &&
-                   d1.getDate() === d2.getDate();
-        }
-
-        // 365 Günlük Veri Dizisini Oluştur
+        // 365 İşlemlik Veri Dizisini Oluştur
         function generatePlanData() {
             const plan = [];
-            const baseDate = parseLocalDate(appState.startDate);
             let currentBal = START_BALANCE;
 
-            for (let day = 1; day <= TOTAL_DAYS; day++) {
+            for (let n = 1; n <= TOTAL_DAYS; n++) {
                 const startBal = currentBal;
-                const endBal = day === TOTAL_DAYS ? TARGET_BALANCE : startBal * (1 + DAILY_RATE);
+                const endBal = n === TOTAL_DAYS ? TARGET_BALANCE : startBal * (1 + DAILY_RATE);
                 const profit = endBal - startBal;
                 const growthPct = ((endBal - START_BALANCE) / START_BALANCE) * 100;
-                const dateObj = addDays(baseDate, day - 1);
 
                 plan.push({
-                    day,
-                    dateObj,
-                    dateStr: formatTurkishDate(dateObj, false),
-                    shortDateStr: formatTurkishDate(dateObj, true),
+                    day: n, // işlem numarası
                     startBal,
                     endBal,
                     profit,
                     growthPct,
-                    completed: appState.completedDays.includes(day)
+                    completed: appState.completedDays.includes(n)
                 });
 
                 currentBal = endBal;
@@ -433,10 +369,10 @@
             if (idx === -1) {
                 appState.completedDays.push(dayNum);
                 appState.completedDays.sort((a, b) => a - b);
-                showToast(`Gün ${dayNum} tamamlandı olarak işaretlendi!`);
+                showToast(`İşlem ${dayNum} tamamlandı olarak işaretlendi!`);
             } else {
                 appState.completedDays.splice(idx, 1);
-                showToast(`Gün ${dayNum} işareti kaldırıldı.`);
+                showToast(`İşlem ${dayNum} işareti kaldırıldı.`);
             }
             saveState();
             renderApp();
@@ -477,7 +413,6 @@
 
         // Ayarlar Modalı
         function openSettingsModal() {
-            document.getElementById('startDateInput').value = appState.startDate;
             resetClickCount = 0;
             document.getElementById('resetConfirmBtn').textContent = "Tüm İşaretlemeleri Sıfırla";
             document.getElementById('settingsModal').classList.remove('hidden');
@@ -485,17 +420,6 @@
 
         function closeSettingsModal() {
             document.getElementById('settingsModal').classList.add('hidden');
-        }
-
-        function saveSettings() {
-            const val = document.getElementById('startDateInput').value;
-            if (val) {
-                appState.startDate = val;
-                saveState();
-                closeSettingsModal();
-                renderApp();
-                showToast("Başlangıç tarihi güncellendi!");
-            }
         }
 
         function handleResetProgress() {
@@ -518,7 +442,7 @@
             const container = document.getElementById('monthFilterContainer');
             let html = `<button onclick="setMonthFilter(0)" id="mfilter-0" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-emerald-500 text-slate-950">Tümü</button>`;
             for (let m = 1; m <= 12; m++) {
-                html += `<button onclick="setMonthFilter(${m})" id="mfilter-${m}" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">${m}. Ay</button>`;
+                html += `<button onclick="setMonthFilter(${m})" id="mfilter-${m}" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">${(m - 1) * 30 + 1}–${m === 12 ? 365 : m * 30}</button>`;
             }
             container.innerHTML = html;
         }
@@ -551,25 +475,19 @@
         }
 
         // Satır HTML Oluşturucu
-        function createDayRowHTML(item, badgeType = null) {
+        function createDayRowHTML(item) {
             const isMilestone = item.day % 30 === 0 || item.day === 365;
             const rowBg = item.completed
                 ? 'bg-slate-900/40 border-slate-800/60 opacity-75'
-                : (badgeType === 'overdue'
-                    ? 'bg-amber-950/20 border-amber-500/40'
-                    : (isMilestone ? 'bg-slate-900/90 border-emerald-500/30' : 'bg-slate-900/80 border-slate-800'));
+                : (isMilestone ? 'bg-slate-900/90 border-emerald-500/30' : 'bg-slate-900/80 border-slate-800');
 
             const checkBtnClass = item.completed
                 ? 'bg-emerald-500 border-emerald-500 text-slate-950 animate-pop'
                 : 'bg-slate-950 border-slate-600 text-transparent hover:border-emerald-400';
 
-            let statusTag = '';
-            if (badgeType === 'overdue') {
-                statusTag = `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">DEVRETTİ</span>`;
-            } else if (isMilestone) {
-                const mNum = item.day === 365 ? 12 : Math.round(item.day / 30);
-                statusTag = `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">${mNum}. AY HEDEFİ</span>`;
-            }
+            const statusTag = isMilestone
+                ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">${item.day}. İŞLEM HEDEFİ</span>`
+                : '';
 
             return `
                 <div onclick="toggleDayCompletion(${item.day})" class="cursor-pointer rounded-2xl border ${rowBg} p-3.5 flex items-center justify-between gap-3 transition active:scale-[0.99]">
@@ -579,8 +497,7 @@
                         </button>
                         <div class="min-w-0">
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold ${item.completed ? 'line-through text-slate-400' : 'text-white'}">Gün ${String(item.day).padStart(3, '0')}</span>
-                                <span class="text-[11px] text-slate-400">• ${item.shortDateStr}</span>
+                                <span class="text-xs font-bold ${item.completed ? 'line-through text-slate-400' : 'text-white'}">İşlem ${String(item.day).padStart(3, '0')}</span>
                                 ${statusTag}
                             </div>
                             <div class="text-[11px] text-slate-400 mt-0.5 truncate">
@@ -596,7 +513,7 @@
             `;
         }
 
-        // Tüm 365 Gün Listesini Çiz
+        // Tüm 365 İşlem Listesini Çiz
         let cachedPlan = [];
         function renderAllDaysList() {
             const container = document.getElementById('allDaysList');
@@ -614,7 +531,7 @@
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">Eşleşen gün bulunamadı.</div>`;
+                container.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">Eşleşen işlem bulunamadı.</div>`;
                 return;
             }
 
@@ -700,11 +617,11 @@
             ctx.fillStyle = '#94a3b8';
             ctx.font = '10px Inter, sans-serif';
             ctx.textAlign = 'left';
-            ctx.fillText('1. Gün', padL, h - 5);
+            ctx.fillText('1. İşlem', padL, h - 5);
             ctx.textAlign = 'center';
-            ctx.fillText('180. Gün', w / 2, h - 5);
+            ctx.fillText('180. İşlem', w / 2, h - 5);
             ctx.textAlign = 'right';
-            ctx.fillText('365. Gün (500K)', w - padR, h - 5);
+            ctx.fillText('365. İşlem (500K)', w - padR, h - 5);
         }
 
         // Ana Render Fonksiyonu
@@ -715,78 +632,48 @@
 
             cachedPlan = generatePlanData();
 
-            // Üst Tarih Etiketi
-            const baseDateObj = parseLocalDate(appState.startDate);
-            document.getElementById('headerStartDateLabel').textContent = formatTurkishDate(baseDateObj, true);
-
             // İlerleme Özeti
             const completedCount = appState.completedDays.length;
-            const highestCompletedDay = completedCount > 0 ? Math.max(...appState.completedDays) : 0;
-            const activeBalance = highestCompletedDay > 0 ? cachedPlan[highestCompletedDay - 1].endBal : START_BALANCE;
+            const highestCompleted = completedCount > 0 ? Math.max(...appState.completedDays) : 0;
+            const activeBalance = highestCompleted > 0 ? cachedPlan[highestCompleted - 1].endBal : START_BALANCE;
 
             document.getElementById('summaryCurrentBalance').textContent = formatMoney(activeBalance);
-            document.getElementById('summaryCompletedCount').textContent = `${completedCount} / 365 Gün`;
+            document.getElementById('summaryCompletedCount').textContent = `${completedCount} / 365 İşlem`;
             const pct = Math.max(0.8, (completedCount / TOTAL_DAYS) * 100);
             document.getElementById('summaryProgressBar').style.width = `${pct}%`;
 
             // İstatistik Sekmesi Değerleri
-            document.getElementById('statRemainingDays').textContent = `${TOTAL_DAYS - completedCount} Gün`;
+            document.getElementById('statRemainingDays').textContent = `${TOTAL_DAYS - completedCount} İşlem`;
             document.getElementById('statRemainingAmount').textContent = `${formatMoney(Math.max(0, TARGET_BALANCE - activeBalance))} USDT`;
 
-            // Sıradaki Aktif Günü Bul (Tamamlanmamış en küçük gün numarası)
-            const nextUncompleted = cachedPlan.find(item => !item.completed) || cachedPlan[TOTAL_DAYS - 1];
-            currentHeroDayNum = nextUncompleted.day;
-
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            // Geçmiş tarihli olup henüz tamamlanmamış günler (Devredenler)
-            const overdueDays = cachedPlan.filter(item => !item.completed && item.dateObj < today && item.day !== nextUncompleted.day);
-
-            // Hero Kartı Güncelle
-            const isOverdueHero = !nextUncompleted.completed && nextUncompleted.dateObj < today;
-            const isTodayHero = isSameDay(nextUncompleted.dateObj, today);
+            // Sıradaki İşlem (tamamlanmamış en küçük numara)
+            const next = cachedPlan.find(item => !item.completed) || cachedPlan[TOTAL_DAYS - 1];
+            currentHeroDayNum = next.day;
 
             const heroBadge = document.getElementById('heroBadge');
-            if (nextUncompleted.completed && completedCount === TOTAL_DAYS) {
-                heroBadge.textContent = "TEBRİKLER! 365 GÜN TAMAMLANDI";
+            if (completedCount === TOTAL_DAYS) {
+                heroBadge.textContent = "TEBRİKLER! 365 İŞLEM TAMAMLANDI";
                 heroBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500 text-slate-950";
-            } else if (isOverdueHero) {
-                heroBadge.textContent = "DEVREDEN AKTİF HEDEF";
-                heroBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40";
-            } else if (isTodayHero) {
-                heroBadge.textContent = "BUGÜNÜN HEDEFİ";
+            } else {
+                heroBadge.textContent = "SIRADAKİ İŞLEM";
                 heroBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-            } else {
-                heroBadge.textContent = "SIRADAKİ HEDEF";
-                heroBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40";
             }
 
-            document.getElementById('heroDateText').textContent = nextUncompleted.dateStr;
-            document.getElementById('heroDayTitle').textContent = `${nextUncompleted.day}. Gün Hedef Bakiye`;
-            document.getElementById('heroTargetBalance').textContent = formatMoney(nextUncompleted.endBal);
-            document.getElementById('heroDailyProfit').textContent = `+${formatMoney(nextUncompleted.profit)} USDT`;
-            document.getElementById('heroStartBalance').textContent = `${formatMoney(nextUncompleted.startBal)} USDT`;
-            document.getElementById('heroGrowthPct').textContent = `%${nextUncompleted.growthPct.toLocaleString('tr-TR', { maximumFractionDigits: 1 })}`;
-            document.getElementById('heroBtnText').textContent = nextUncompleted.completed
-                ? `${nextUncompleted.day}. Gün Tamamlandı ✓`
-                : `${nextUncompleted.day}. Günü Tamamlandı İşaretle`;
+            document.getElementById('heroDateText').textContent = `İşlem ${next.day} / ${TOTAL_DAYS}`;
+            document.getElementById('heroDayTitle').textContent = `${next.day}. İşlem Hedef Bakiye`;
+            document.getElementById('heroTargetBalance').textContent = formatMoney(next.endBal);
+            document.getElementById('heroDailyProfit').textContent = `+${formatMoney(next.profit)} USDT`;
+            document.getElementById('heroStartBalance').textContent = `${formatMoney(next.startBal)} USDT`;
+            document.getElementById('heroGrowthPct').textContent = `%${next.growthPct.toLocaleString('tr-TR', { maximumFractionDigits: 1 })}`;
+            document.getElementById('heroBtnText').textContent = next.completed
+                ? `${next.day}. İşlem Tamamlandı ✓`
+                : `${next.day}. İşlemi Tamamlandı İşaretle`;
 
-            // Devreden Günler Bölümü
-            const overdueSection = document.getElementById('overdueSection');
-            if (overdueDays.length > 0) {
-                overdueSection.classList.remove('hidden');
-                document.getElementById('overdueCountBadge').textContent = `${overdueDays.length} Gün`;
-                document.getElementById('overdueList').innerHTML = overdueDays.map(d => createDayRowHTML(d, 'overdue')).join('');
-            } else {
-                overdueSection.classList.add('hidden');
-            }
-
-            // Yaklaşan 7 Gün Listesi
-            const upcomingItems = cachedPlan.filter(item => item.day > nextUncompleted.day).slice(0, 7);
+            // Yaklaşan 7 İşlem
+            const upcomingItems = cachedPlan.filter(item => item.day > next.day).slice(0, 7);
             document.getElementById('upcomingList').innerHTML = upcomingItems.map(d => createDayRowHTML(d)).join('');
 
-            // Aylık Kilometre Taşları (İstatistik Sekmesi)
+            // Ara Hedefler (İstatistik Sekmesi)
             const milestoneDays = [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 365];
             document.getElementById('monthlyMilestonesList').innerHTML = milestoneDays.map((dNum, i) => {
                 const item = cachedPlan[dNum - 1];
@@ -794,15 +681,14 @@
                     <div class="py-2.5 flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full ${item.completed ? 'bg-emerald-400' : 'bg-slate-600'}"></span>
-                            <span class="font-semibold text-slate-200">${i + 1}. Ay (${dNum}. Gün)</span>
-                            <span class="text-slate-500">• ${item.shortDateStr}</span>
+                            <span class="font-semibold text-slate-200">${i + 1}. Ara Hedef</span>
+                            <span class="text-slate-500">• ${dNum}. İşlem</span>
                         </div>
                         <span class="font-bold ${item.completed ? 'text-emerald-400' : 'text-white'}">${formatMoney(item.endBal)} USDT</span>
                     </div>
                 `;
             }).join('');
 
-            // Tüm Günler Sekmesini Güncelle
             renderAllDaysList();
 
             if (currentTab === 'stats') {
