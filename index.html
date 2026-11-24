@@ -98,6 +98,32 @@
         </div>
     </header>
 
+    <!-- Supertrend Anlık Pozisyon Yönü (1h) -->
+    <div id="stSignalBar" class="bg-slate-950/90 border-b border-slate-800/80 px-4 py-2.5">
+        <div class="max-w-lg mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 min-w-0">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 flex-shrink-0">1H ST</span>
+                <div class="flex items-center gap-2">
+                    <span id="stDirectionBadge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-extrabold tracking-wide border transition-all">
+                        <span id="stDirectionDot" class="w-2 h-2 rounded-full"></span>
+                        <span id="stDirectionText">Yükleniyor…</span>
+                    </span>
+                    <span id="stSymbolLabel" class="text-[11px] text-slate-400 font-medium">BTCUSDT</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                <span id="stLastUpdate" class="text-[10px] text-slate-500 tabular-nums hidden sm:inline">—</span>
+                <button onclick="refreshSupertrend()" id="stRefreshBtn" class="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition active:scale-95" title="Yenile" aria-label="Sinyali yenile">
+                    <svg id="stRefreshIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="max-w-lg mx-auto mt-1.5 flex items-center justify-between text-[10px] text-slate-500">
+            <span>Supertrend ATR 20 × 3.5 · Spot 1h</span>
+            <span id="stValueText" class="tabular-nums">ST: —</span>
+        </div>
+    </div>
+
     <!-- Ana İçerik Alanı -->
     <main class="max-w-lg mx-auto px-4 pt-4 space-y-5">
 
@@ -696,11 +722,171 @@
             }
         }
 
+        // ============================================================================
+        // SUPERTREND (Pine v6 ta.supertrend birebir) — 1h pozisyon yönü
+        // ============================================================================
+        const ST_ATR_LEN = 20;
+        const ST_FACTOR = 3.5;
+        const ST_SYMBOL = 'BTCUSDT';
+        const ST_INTERVAL = '1h';
+        const ST_LIMIT = 150; // ısınma + güncel mumlar için yeterli
+        let stRefreshTimer = null;
+
+        /**
+         * Pine Script ta.supertrend(factor, atrPeriod) karşılığı.
+         * @returns {{ st: number[], direction: number[] }}
+         *   direction < 0 → yükseliş (LONG / yeşil)
+         *   direction > 0 → düşüş (SHORT / kırmızı)
+         */
+        function calcSupertrend(high, low, close, factor, length) {
+            const n = close.length;
+            const hl2 = new Array(n);
+            const tr = new Array(n);
+            const atr = new Array(n).fill(NaN);
+            const st = new Array(n).fill(NaN);
+            const direction = new Array(n).fill(1);
+
+            for (let i = 0; i < n; i++) {
+                hl2[i] = (high[i] + low[i]) / 2;
+            }
+
+            tr[0] = high[0] - low[0];
+            for (let i = 1; i < n; i++) {
+                const pc = close[i - 1];
+                tr[i] = Math.max(
+                    high[i] - low[i],
+                    Math.abs(high[i] - pc),
+                    Math.abs(low[i] - pc)
+                );
+            }
+
+            // RMA (Wilder) — ilk değer SMA ile tohumlanır
+            if (n >= length) {
+                let sum = 0;
+                for (let i = 0; i < length; i++) sum += tr[i];
+                atr[length - 1] = sum / length;
+                for (let i = length; i < n; i++) {
+                    atr[i] = (atr[i - 1] * (length - 1) + tr[i]) / length;
+                }
+            }
+
+            let prevLower = NaN;
+            let prevUpper = NaN;
+            let prevSt = NaN;
+
+            for (let i = 0; i < n; i++) {
+                const up = hl2[i] + factor * atr[i];
+                const lo = hl2[i] - factor * atr[i];
+                const pcl = i > 0 ? close[i - 1] : NaN;
+
+                const lower = (isNaN(prevLower) || lo > prevLower || pcl < prevLower) ? lo : prevLower;
+                const upper = (isNaN(prevUpper) || up < prevUpper || pcl > prevUpper) ? up : prevUpper;
+
+                let d;
+                if (i === 0 || isNaN(atr[i - 1])) {
+                    d = 1;
+                } else if (prevSt === prevUpper) {
+                    d = close[i] > upper ? -1 : 1;
+                } else {
+                    d = close[i] < lower ? 1 : -1;
+                }
+
+                const cur = d === -1 ? lower : upper;
+                st[i] = cur;
+                direction[i] = d;
+                prevLower = lower;
+                prevUpper = upper;
+                prevSt = cur;
+            }
+
+            return { st, direction };
+        }
+
+        function setStUI(state, text, stVal) {
+            const badge = document.getElementById('stDirectionBadge');
+            const dot = document.getElementById('stDirectionDot');
+            const label = document.getElementById('stDirectionText');
+            const valEl = document.getElementById('stValueText');
+            const upd = document.getElementById('stLastUpdate');
+
+            label.textContent = text;
+
+            if (state === 'long') {
+                badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-extrabold tracking-wide border transition-all bg-emerald-500/15 border-emerald-500/40 text-emerald-400';
+                dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+            } else if (state === 'short') {
+                badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-extrabold tracking-wide border transition-all bg-rose-500/15 border-rose-500/40 text-rose-400';
+                dot.className = 'w-2 h-2 rounded-full bg-rose-400 animate-pulse';
+            } else if (state === 'error') {
+                badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-extrabold tracking-wide border transition-all bg-slate-800 border-slate-700 text-slate-400';
+                dot.className = 'w-2 h-2 rounded-full bg-slate-500';
+            } else {
+                badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-extrabold tracking-wide border transition-all bg-slate-800/80 border-slate-700 text-slate-400';
+                dot.className = 'w-2 h-2 rounded-full bg-slate-500 animate-pulse';
+            }
+
+            if (stVal != null && !isNaN(stVal)) {
+                valEl.textContent = `ST: ${stVal.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            } else {
+                valEl.textContent = 'ST: —';
+            }
+
+            const now = new Date();
+            upd.textContent = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        async function refreshSupertrend() {
+            const btn = document.getElementById('stRefreshBtn');
+            const icon = document.getElementById('stRefreshIcon');
+            btn.disabled = true;
+            icon.classList.add('animate-spin');
+
+            try {
+                // Binance 1h klines (data-api — tarayıcı / bölge uyumlu)
+                const url = `https://data-api.binance.vision/api/v3/klines?symbol=${ST_SYMBOL}&interval=${ST_INTERVAL}&limit=${ST_LIMIT}`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const raw = await res.json();
+                if (!Array.isArray(raw) || raw.length < ST_ATR_LEN + 5) {
+                    throw new Error('Yetersiz mum verisi');
+                }
+
+                const high = raw.map(r => parseFloat(r[2]));
+                const low = raw.map(r => parseFloat(r[3]));
+                const close = raw.map(r => parseFloat(r[4]));
+
+                const { st, direction } = calcSupertrend(high, low, close, ST_FACTOR, ST_ATR_LEN);
+                const lastIdx = direction.length - 1;
+                const dir = direction[lastIdx];
+                const stVal = st[lastIdx];
+
+                if (dir < 0) {
+                    setStUI('long', 'LONG', stVal);
+                } else {
+                    setStUI('short', 'SHORT', stVal);
+                }
+            } catch (err) {
+                console.error('Supertrend güncelleme hatası:', err);
+                setStUI('error', 'Veri yok', null);
+            } finally {
+                btn.disabled = false;
+                icon.classList.remove('animate-spin');
+            }
+        }
+
+        function startStAutoRefresh() {
+            refreshSupertrend();
+            if (stRefreshTimer) clearInterval(stRefreshTimer);
+            // 1h mumda 60 sn yeterli; fazla istek atmamak için 90 sn
+            stRefreshTimer = setInterval(refreshSupertrend, 90_000);
+        }
+
         // Başlangıç
         window.addEventListener('DOMContentLoaded', () => {
             loadState();
             initMonthFilters();
             renderApp();
+            startStAutoRefresh();
         });
 
         window.addEventListener('resize', () => {
