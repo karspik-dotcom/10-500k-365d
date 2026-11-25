@@ -1008,8 +1008,15 @@
                 `https://www.tradingview.com/chart/?symbol=${encodeURIComponent('BINANCE:' + chartCfg.symbol + '.P')}`;
         }
 
+        // Yakınlaştırma ayarını sakla
+        function saveZoom() {
+            appState.chartZoom = Math.round(viewBars);
+            saveState();
+        }
+
         function zoomChart(factor) {
             viewBars = Math.round(Math.max(30, Math.min(500, viewBars * factor)));
+            saveZoom();
             drawPriceChart();
         }
 
@@ -1033,7 +1040,7 @@
                     drawPriceChart();
                 } else if (pointers.size === 2) {
                     const now = spread();
-                    if (now > 10 && pinch > 10) { viewBars = Math.max(30, Math.min(500, viewBars * pinch / now)); drawPriceChart(); }
+                    if (now > 10 && pinch > 10) { viewBars = Math.max(30, Math.min(500, viewBars * pinch / now)); saveZoom(); drawPriceChart(); }
                     pinch = now;
                 }
             });
@@ -1043,6 +1050,7 @@
 
         function initChart() {
             chartCfg = { ...CHART_DEFAULTS, ...(appState.chart || {}) };
+            viewBars = appState.chartZoom || viewBars;
             syncChartControls();
             initChartGestures();
             loadCandles();
