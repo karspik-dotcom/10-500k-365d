@@ -63,6 +63,52 @@
             filter: invert(1);
             opacity: 0.7;
         }
+
+        /* Likidasyon Hesaplayıcı */
+        #view-liq{--bg:#0b1020;--panel:#121a2d;--panel2:#172239;--line:#263550;  --text:#edf3ff;--muted:#93a4c2;--blue:#6ea8fe;--green:#25d695;  --red:#ff647c;--gold:#f6c768;--input:#0d1527;}
+        #view-liq .card{background:linear-gradient(160deg,#151f34,#10182a);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 16px 42px #0003}
+        #view-liq .card h2{font-size:16px;margin:0 0 18px;display:flex;align-items:center;gap:9px}
+        #view-liq .card h2 span{color:var(--blue)}
+        #view-liq .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        #view-liq .field{min-width:0}
+        #view-liq .field.full{grid-column:1/-1}
+        #view-liq label{display:block;color:#b8c6dd;font-size:12px;font-weight:650;margin:0 0 7px}
+        #view-liq input{width:100%;border:1px solid #2a3a57;background:var(--input);color:var(--text);border-radius:11px;padding:12px 13px;font:inherit;outline:none;transition:.2s}
+        #view-liq input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #6ea8fe1c}
+        #view-liq .hint{color:#7184a5;font-size:11px;margin-top:5px}
+        #view-liq .direction{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+        #view-liq .dir{position:relative}
+        #view-liq .dir input{position:absolute;opacity:0;pointer-events:none}
+        #view-liq .dir label{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #2a3a57;background:var(--input);border-radius:11px;padding:12px;cursor:pointer;color:#aebdd5;margin:0;font-size:13px}
+        #view-liq .dir.long input:checked+label{background:#0d352d;border-color:#168d69;color:#61e4b5}
+        #view-liq .dir.short input:checked+label{background:#3a1b2a;border-color:#b3435b;color:#ff8da0}
+        #view-liq .actions{display:flex;gap:10px;margin-top:19px}
+        #view-liq button{border:0;border-radius:11px;padding:13px 18px;font:700 14px inherit;cursor:pointer;transition:.2s}
+        #view-liq .primary{flex:1;background:linear-gradient(110deg,#347df0,#6b69ed);color:white;box-shadow:0 8px 22px #477cf333}
+        #view-liq .primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+        #view-liq .secondary{background:#202c43;color:#c5d2e8;border:1px solid #34445f}
+        #view-liq .results{display:grid;gap:13px}
+        #view-liq .hero{border-radius:16px;padding:19px;background:linear-gradient(130deg,#182d4d,#17233b);border:1px solid #30496d}
+        #view-liq .hero-top{display:flex;justify-content:space-between;align-items:center;color:#a9bbd8;font-size:12px}
+        #view-liq .direction-tag{font-size:11px;font-weight:800;letter-spacing:.7px;padding:5px 9px;border-radius:99px}
+        #view-liq .direction-tag.long{background:#0e3b30;color:#64e7b8}
+        #view-liq .direction-tag.short{background:#451e2b;color:#ff91a3}
+        #view-liq .big{font-size:clamp(27px,4vw,36px);font-weight:800;letter-spacing:-1px;margin:7px 0 0;overflow-wrap:anywhere}
+        #view-liq .big small{font-size:13px;color:#9fb0cc;font-weight:600;letter-spacing:0}
+        #view-liq .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        #view-liq .metric{background:#0e1729;border:1px solid #24344f;border-radius:14px;padding:14px;min-width:0}
+        #view-liq .metric .k{font-size:11px;color:var(--muted);margin-bottom:7px}
+        #view-liq .metric .v{font-size:17px;font-weight:750;overflow-wrap:anywhere}
+        #view-liq .metric .note{font-size:11px;color:#7488aa;margin-top:4px}
+        #view-liq .metric.green .v{color:var(--green)}
+        #view-liq .metric.red .v{color:var(--red)}
+        #view-liq .metric.gold .v{color:var(--gold)}
+        #view-liq .section-title{font-size:12px;color:#8ea2c2;font-weight:800;letter-spacing:1px;margin:4px 0 -3px}
+        #view-liq .notice{border:1px solid #4b4025;background:#2a2519;color:#e9d39d;border-radius:12px;padding:12px 14px;font-size:11px}
+        #view-liq .error{display:none;border:1px solid #773b4b;background:#351d29;color:#ff9aaa;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:12px}
+        #view-liq *{min-width:0}
+        #view-liq input{font-size:16px}
+        @media(max-width:360px){#view-liq .fields{grid-template-columns:1fr}#view-liq .field.full{grid-column:auto}.tab-btn{font-size:11px;padding-left:2px;padding-right:2px}}
     </style>
 </head>
 <body class="min-h-screen antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
@@ -149,7 +195,7 @@
         </section>
 
         <!-- SEKMELER (TABS) -->
-        <nav class="grid grid-cols-3 gap-1.5 p-1 bg-slate-900/90 border border-slate-800 rounded-2xl">
+        <nav style="grid-template-columns:repeat(4,minmax(0,1fr))" class="grid gap-1.5 p-1 bg-slate-900/90 border border-slate-800 rounded-2xl">
             <button onclick="switchTab('focus')" id="tab-focus" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all bg-emerald-500 text-slate-950 shadow-sm">
                 Sıradaki İşlem
             </button>
@@ -158,6 +204,9 @@
             </button>
             <button onclick="switchTab('stats')" id="tab-stats" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all text-slate-400 hover:text-white">
                 Analiz & Grafik
+            </button>
+            <button onclick="switchTab('liq')" id="tab-liq" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all text-slate-400 hover:text-white">
+                Likit H.
             </button>
         </nav>
 
@@ -274,7 +323,74 @@
             </div>
         </div>
 
-    </main>
+    <!-- SEKME 4: LİKİDASYON HESAPLAYICI -->
+        <div id="view-liq" class="hidden space-y-4">
+            <section class="card">
+      <h2><span>01</span> Pozisyon bilgileri</h2>
+      <div class="fields">
+        <div class="field">
+          <label for="lk-entry">Giriş fiyatı (USDT)</label>
+          <input id="lk-entry" type="number" inputmode="decimal" min="0.00000001" step="any" value="60000">
+        </div>
+        <div class="field">
+          <label for="lk-wallet">Cüzdan bakiyesi (USDT)</label>
+          <input id="lk-wallet" type="number" inputmode="decimal" min="0.00000001" step="any" value="10000">
+        </div>
+        <div class="field">
+          <label for="lk-marginPercent">Marjin oranı (%)</label>
+          <input id="lk-marginPercent" type="number" inputmode="decimal" min="0.00000001" step="any" value="5">
+          <div class="hint">Cüzdan bakiyesinin kullanılacak yüzdesi</div>
+        </div>
+        <div class="field">
+          <label for="lk-leverage">Kaldıraç (x)</label>
+          <input id="lk-leverage" type="number" inputmode="decimal" min="0.00000001" step="any" value="5">
+        </div>
+        <div class="field full">
+          <label>Pozisyon yönü</label>
+          <div class="direction">
+            <div class="dir long"><input type="radio" name="lk-direction" id="lk-long" value="long" checked><label for="lk-long">↗ LONG</label></div>
+            <div class="dir short"><input type="radio" name="lk-direction" id="lk-short" value="short"><label for="lk-short">↘ SHORT</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="lk-profitPercent">Kâr hedefi (%)</label>
+          <input id="lk-profitPercent" type="number" inputmode="decimal" min="0.00000001" step="any" value="0.625">
+          <div class="hint">Giriş fiyatına göre TP hareket oranı</div>
+        </div>
+      </div>
+      <div class="hint">Bakım marjı oranı %0,4 ve kümülatif tutar 0 olarak sabitlenmiştir.</div>
+      <div class="error" id="lk-error" role="alert"></div>
+      <div class="actions">
+        <button type="button" class="primary" id="lk-calculate">Hesapla ↗</button>
+        <button class="secondary" id="lk-reset" type="button">Sıfırla</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span>02</span> Hesaplama sonuçları</h2>
+      <div class="results" aria-live="polite">
+        <div class="hero">
+          <div class="hero-top"><span>TAHMİNİ LİKİDASYON FİYATI</span><span class="direction-tag long" id="lk-directionTag">LONG</span></div>
+          <div class="big" id="lk-liqPrice">— <small>USDT</small></div>
+        </div>
+        <div class="section-title">POZİSYON ÖZETİ</div>
+        <div class="result-grid">
+          <div class="metric"><div class="k">Pozisyon büyüklüğü</div><div class="v" id="lk-positionSize">—</div><div class="note">USDT</div></div>
+          <div class="metric"><div class="k">BTC miktarı</div><div class="v" id="lk-quantity">—</div><div class="note">BTC</div></div>
+          <div class="metric"><div class="k">Giriş fiyatı</div><div class="v" id="lk-entryOut">—</div><div class="note">USDT</div></div>
+          <div class="metric"><div class="k">Kaldıraç</div><div class="v" id="lk-leverageOut">—</div><div class="note">Çarpan</div></div>
+        </div>
+        <div class="section-title">TAKE PROFIT · %<span id="lk-tpTitle">0,625</span></div>
+        <div class="result-grid">
+          <div class="metric gold"><div class="k">TP fiyatı</div><div class="v" id="lk-tpPrice">—</div><div class="note">USDT</div></div>
+          <div class="metric green"><div class="k">Tahmini brüt kâr</div><div class="v" id="lk-profit">—</div><div class="note">USDT · Komisyon/fonlama hariç</div></div>
+        </div>
+        <div class="notice">Sonuçlar tahminidir; borsa bakım marjı kademeleri, pozisyon/hesap modu, ücretler ve fonlama nedeniyle gerçek likidasyon fiyatı farklı olabilir.</div>
+      </div>
+    </section>
+        </div>
+
+        </main>
 
     <!-- Ayarlar & Başlangıç Tarihi Modalı -->
     <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-4">
@@ -414,7 +530,7 @@
         // Sekme Değiştirme
         function switchTab(tabName) {
             currentTab = tabName;
-            ['focus', 'all', 'stats'].forEach(t => {
+            ['focus', 'all', 'stats', 'liq'].forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
                 const view = document.getElementById(`view-${t}`);
                 if (t === tabName) {
@@ -1057,12 +1173,85 @@
             setInterval(loadCandles, 30_000);
         }
 
+        // ============================================================================
+        // LİKİDASYON HESAPLAYICI
+        // ============================================================================
+        const LIQ_FIELDS = ['entry', 'wallet', 'marginPercent', 'leverage', 'profitPercent'];
+        const $lk = id => document.getElementById('lk-' + id);
+        const fmt = (n, digits=2) => Number(n).toLocaleString('tr-TR',{minimumFractionDigits:digits,maximumFractionDigits:digits});
+
+        function calculateLiq(){
+          const entry=Number($lk('entry').value), wallet=Number($lk('wallet').value),
+                marginPercent=Number($lk('marginPercent').value), leverage=Number($lk('leverage').value),
+                tpPercent=Number($lk('profitPercent').value);
+          const direction=document.querySelector('input[name="lk-direction"]:checked').value;
+          const margin=wallet*marginPercent/100;
+          const mmrPercent=0.4;
+          const maintenance=0;
+          const error=$lk('error'); error.style.display='none'; error.textContent='';
+          if(![entry,wallet,marginPercent,leverage,tpPercent].every(Number.isFinite)){
+            error.textContent='Lütfen tüm alanlara geçerli sayısal değerler girin.';error.style.display='block';return;
+          }
+          if(entry<=0||wallet<=0){error.textContent='Giriş fiyatı ve cüzdan bakiyesi sıfırdan büyük olmalı.';error.style.display='block';return;}
+          if(marginPercent<=0||marginPercent>100||leverage<=0){error.textContent='Marjin oranı 0 ile 100 arasında, kaldıraç ise sıfırdan büyük olmalı.';error.style.display='block';return;}
+          if(tpPercent<=0){error.textContent='Kâr hedefi sıfırdan büyük olmalı.';error.style.display='block';return;}
+
+          const positionSize=margin*leverage;
+          const quantity=positionSize/entry;
+          const mmr=mmrPercent/100;
+          const tpRate=tpPercent/100;
+          const tpPrice=direction==='long'?entry*(1+tpRate):entry*(1-tpRate);
+          const profit=quantity*Math.abs(tpPrice-entry);
+          const liquidation=direction==='long'
+            ?(quantity*entry-wallet+maintenance)/(quantity*(1-mmr))
+            :(wallet+quantity*entry+maintenance)/(quantity*(1+mmr));
+
+          $lk('directionTag').textContent=direction.toUpperCase();
+          $lk('directionTag').className='direction-tag '+direction;
+          $lk('tpTitle').textContent=tpPercent.toLocaleString('tr-TR',{maximumFractionDigits:8});
+          $lk('liqPrice').innerHTML=(liquidation<=0&&direction==='long'?'Pozitif fiyat yok':fmt(liquidation,4))+' <small>USDT</small>';
+          $lk('positionSize').textContent=fmt(positionSize,2);
+          $lk('quantity').textContent=quantity.toFixed(8);
+          $lk('entryOut').textContent=fmt(entry,2);
+          $lk('leverageOut').textContent=fmt(leverage,2)+'x';
+          $lk('tpPrice').textContent=fmt(tpPrice,2);
+          $lk('profit').textContent='+'+fmt(profit,4);
+        }
+
+        function saveLiqInputs() {
+            appState.liq = { direction: document.querySelector('input[name="lk-direction"]:checked').value };
+            LIQ_FIELDS.forEach(f => appState.liq[f] = $lk(f).value);
+            saveState();
+        }
+
+        function initLiqCalculator() {
+            const saved = appState.liq;
+            if (saved) {
+                LIQ_FIELDS.forEach(f => $lk(f).value = saved[f]);
+                $lk(saved.direction === 'short' ? 'short' : 'long').checked = true;
+            }
+            $lk('calculate').addEventListener('click', calculateLiq);
+            $lk('reset').addEventListener('click', () => {
+                LIQ_FIELDS.forEach(f => $lk(f).value = $lk(f).defaultValue);
+                $lk('long').checked = true;
+                saveLiqInputs();
+                calculateLiq();
+            });
+            document.querySelectorAll('#view-liq input').forEach(el => {
+                el.addEventListener('input', saveLiqInputs);
+                el.addEventListener('change', () => { saveLiqInputs(); calculateLiq(); });
+                el.addEventListener('keydown', e => { if (e.key === 'Enter') calculateLiq(); });
+            });
+            calculateLiq();
+        }
+
         // Başlangıç
         window.addEventListener('DOMContentLoaded', () => {
             loadState();
             initMonthFilters();
             renderApp();
             initChart();
+            initLiqCalculator();
         });
 
         window.addEventListener('resize', () => {
