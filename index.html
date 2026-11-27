@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>10 → 500K | 365 İşlemlik Büyüme Planı</title>
+    <title>Büyüme Planı</title>
     
     <!-- iOS Safari PWA (Ana Ekrana Ekle) Meta Etiketleri -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -137,9 +137,9 @@
             <div>
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <h1 class="text-base font-bold tracking-tight text-white">10 → 500.000 USDT</h1>
+                    <h1 id="planTitle" class="text-base font-bold tracking-tight text-white">10 → 500.000 USDT</h1>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-0.5">365 İşlemlik Bileşik Büyüme (%3,01 / İşlem)</p>
+                <p id="planSubtitle" class="text-[11px] text-slate-400 mt-0.5">365 İşlemlik Bileşik Büyüme (%3,01 / İşlem)</p>
             </div>
             
             <button onclick="openSettingsModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700/80 text-xs font-medium text-slate-200 transition active:scale-95">
@@ -203,7 +203,7 @@
                 Sıradaki İşlem
             </button>
             <button onclick="switchTab('all')" id="tab-all" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all text-slate-400 hover:text-white">
-                Tüm 365 İşlem
+                <span id="tabAllLabel">Tüm 365 İşlem</span>
             </button>
             <button onclick="switchTab('stats')" id="tab-stats" class="tab-btn py-2 px-2 rounded-xl text-xs font-semibold transition-all text-slate-400 hover:text-white">
                 Analiz & Grafik
@@ -295,7 +295,7 @@
             <div class="grid grid-cols-2 gap-3">
                 <div class="glass-card rounded-2xl p-3.5">
                     <span class="text-[11px] text-slate-400 block">Başlangıç / Hedef</span>
-                    <span class="text-sm font-bold text-white mt-1 block">10 → 500.000 USDT</span>
+                    <span id="planRangeText" class="text-sm font-bold text-white mt-1 block">10 → 500.000 USDT</span>
                 </div>
                 <div class="glass-card rounded-2xl p-3.5">
                     <span class="text-[11px] text-slate-400 block">Gerekli İşlem Başı Oran</span>
@@ -314,7 +314,7 @@
             <!-- Büyüme Eğrisi Grafiği -->
             <div class="glass-card rounded-2xl p-4">
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">365 İşlemlik Bileşik Büyüme Eğrisi</h3>
+                    <h3 id="growthTitle" class="text-xs font-bold uppercase tracking-wider text-slate-300">365 İşlemlik Bileşik Büyüme Eğrisi</h3>
                     <span class="text-[11px] text-emerald-400 font-medium">Üstel Artış</span>
                 </div>
                 <div class="w-full h-48 relative">
@@ -400,29 +400,26 @@
         <div id="view-radar" class="hidden space-y-3">
             <div class="flex gap-2">
                 <button id="radar-live" onclick="setRadarMode('live')" style="flex:1;border:1px solid #334155;border-radius:10px;padding:8px;font-size:12px;font-weight:600">Canlı ekran</button>
-                <button id="radar-liqmap" onclick="setRadarMode('liqmap')" style="flex:1;border:1px solid #334155;border-radius:10px;padding:8px;font-size:12px;font-weight:600">Likit Map</button>
-            </div>
-            <div id="liqmapWrap" class="hidden space-y-2">
-                <div class="flex gap-2 items-center">
-                    <button id="lm-r-7" data-est="1" onclick="setLiqRange(7)" style="border:1px solid #334155;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600">7g</button>
-                    <button id="lm-r-30" data-est="1" onclick="setLiqRange(30)" style="border:1px solid #334155;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600">30g</button>
-                    <button id="lm-r-90" data-est="1" onclick="setLiqRange(90)" style="border:1px solid #334155;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600">90g</button>
-                    <span id="liqmapStatus" class="text-[11px] text-slate-400" style="margin-left:auto;text-align:right"></span>
-                    <button onclick="toggleBmKeyBox()" title="API anahtarı" style="font-size:13px;padding:2px 6px">🔑</button>
-                </div>
-                <div id="bmKeyBox" class="hidden flex gap-2">
-                    <input id="bmKeyInput" type="password" autocomplete="off" placeholder="Blockmetric API anahtarı (bm_live_…)" style="flex:1;min-width:0;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:7px 10px;font-size:16px;color:#f8fafc">
-                    <button onclick="saveBmKey()" style="background:#10b981;color:#020617;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700">Kaydet</button>
-                </div>
-                <div class="rounded-2xl overflow-hidden" style="background:#0b0f17;border:1px solid #1e293b">
-                    <canvas id="liqmapCanvas" style="display:block;width:100%;height:540px"></canvas>
-                </div>
-                <details id="liqmapDebugWrap" class="hidden text-[11px] text-slate-400"><summary class="cursor-pointer text-amber-300">API yanıtı tanınamadı — ham veriyi göster</summary><pre id="liqmapDebug" style="white-space:pre-wrap;word-break:break-all;max-height:240px;overflow:auto;background:#0f172a;border-radius:8px;padding:8px;margin-top:6px;font-size:10px"></pre></details>
-                <p id="liqmapNote" class="text-center text-[10px] text-slate-500 leading-snug">Binance USDT-M BTCUSDT 4s mum hacmi + kaldıraç katmanlarından hesaplanan <b>tahmini</b> tasfiye haritası. Kırmızı: üstteki short tasfiyeleri, yeşil: alttaki long tasfiyeleri. Yatırım tavsiyesi değildir.</p>
+                <button id="radar-liqmap" onclick="setRadarMode('liqmap')" style="flex:1;border:1px solid #334155;border-radius:10px;padding:8px;font-size:12px;font-weight:600">Likit Harita</button>
             </div>
             <iframe id="radarFrame" title="BTC balina radarı" frameborder="0" style="display:block;width:100%;height:75vh;min-height:480px;border:0;color-scheme:normal" class="rounded-2xl"></iframe>
-            <p id="radarSrc" class="text-center text-[11px] text-slate-400">Kaynak: <a href="https://whaleradar.com/btc" target="_blank" rel="noopener" class="text-emerald-400 underline">WhaleRadar · BTC whales</a></p>
-            <a id="radarOpen" href="https://whaleradar.com/watch?m=btc&layout=focus" target="_blank" rel="noopener" class="block w-full py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center text-xs font-semibold text-emerald-400">Canlı ekran boşsa yeni sayfada aç ↗</a>
+            <div id="liqMapWrap" style="display:none">
+                <div style="position:relative;background:#0b0e14;border:1px solid #1e293b;border-radius:16px;padding:8px">
+                    <div style="position:absolute;left:12px;top:12px;z-index:2;background:rgba(15,23,42,.85);padding:4px 8px;border-radius:6px">
+                        <div style="font-size:12px;font-weight:700;color:#fff">Likit Harita</div>
+                        <div id="liqMapTime" style="font-size:10px;color:#94a3b8">yükleniyor…</div>
+                    </div>
+                    <canvas id="liqMapCanvas" style="width:100%;height:520px;display:block"></canvas>
+                    <div style="margin-top:8px;background:#111827;border:1px solid #1e293b;border-radius:10px;padding:10px 12px">
+                        <div style="font-size:11px;color:#94a3b8">Görünümde</div>
+                        <div id="liqMapTotal" style="font-size:20px;font-weight:700;color:#fff">–</div>
+                        <div style="font-size:12px"><span id="liqMapLong" style="color:#6ee7a0">–</span> · <span id="liqMapShort" style="color:#f87171">–</span></div>
+                    </div>
+                </div>
+                <p class="text-center text-[11px] text-slate-400 mt-2">Blockmetric BTC likit haritası. Kırmızı: short tasfiye, yeşil: long tasfiye.</p>
+            </div>
+            <p id="radarSource" class="text-center text-[11px] text-slate-400">Kaynak: <a href="https://whaleradar.com/btc" target="_blank" rel="noopener" class="text-emerald-400 underline">WhaleRadar · BTC whales</a></p>
+            <a id="radarOpenLink" href="https://whaleradar.com/watch?m=btc&layout=focus" target="_blank" rel="noopener" class="block w-full py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center text-xs font-semibold text-emerald-400">Canlı ekran boşsa yeni sayfada aç ↗</a>
         </div>
 
     </main>
@@ -438,6 +435,26 @@
             </div>
 
             <div class="space-y-3">
+                <div class="space-y-2.5 pb-3 border-b border-slate-800">
+                    <div class="text-xs font-bold text-slate-200">Hedef Planı</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="text-[11px] text-slate-400">Başlangıç (USDT)
+                            <input id="setStart" type="number" inputmode="decimal" step="any" min="0" oninput="previewPlan()" class="mt-1 w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        </label>
+                        <label class="text-[11px] text-slate-400">Hedef (USDT)
+                            <input id="setTarget" type="number" inputmode="decimal" step="any" min="0" oninput="previewPlan()" class="mt-1 w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        </label>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1 bg-slate-950 border border-slate-800 rounded-xl p-1">
+                        <button id="planModeSteps" onclick="setPlanMode('steps')" class="py-1.5 rounded-lg text-[11px] font-semibold">Adım sayısı seç</button>
+                        <button id="planModeRate" onclick="setPlanMode('rate')" class="py-1.5 rounded-lg text-[11px] font-semibold">Artış % seç</button>
+                    </div>
+                    <label class="block text-[11px] text-slate-400"><span id="planValueLabel">Adım sayısı</span>
+                        <input id="setValue" type="number" inputmode="decimal" step="any" min="0" oninput="previewPlan()" class="mt-1 w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                    </label>
+                    <div id="planPreview" class="text-[11px] text-slate-400 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2">–</div>
+                    <button id="planApplyBtn" onclick="applyPlanFromSettings()" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition">Planı Uygula</button>
+                </div>
                 <div>
                     <button id="resetConfirmBtn" onclick="handleResetProgress()" class="w-full py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 font-semibold text-xs transition">
                         Tüm İşaretlemeleri Sıfırla
@@ -457,10 +474,19 @@
 
     <script>
         // Sabit Hesaplama Parametreleri
-        const START_BALANCE = 10.00;
-        const TARGET_BALANCE = 500000.00;
-        const TOTAL_DAYS = 365;
-        const DAILY_RATE = Math.pow(TARGET_BALANCE / START_BALANCE, 1 / TOTAL_DAYS) - 1; // ~0.03008696 (işlem başına)
+        let START_BALANCE = 10.00;
+        let TARGET_BALANCE = 500000.00;
+        let TOTAL_DAYS = 365;
+        let DAILY_RATE = Math.pow(TARGET_BALANCE / START_BALANCE, 1 / TOTAL_DAYS) - 1; // işlem başına bileşik artış
+
+        function setPlanParams(start, target, days) {
+            START_BALANCE = start; TARGET_BALANCE = target; TOTAL_DAYS = days;
+            DAILY_RATE = Math.pow(target / start, 1 / days) - 1;
+        }
+        const fmtPlain = n => n.toLocaleString('tr-TR', { maximumFractionDigits: 2 });
+        const fmtShort = n => n >= 1e6 ? +(n / 1e6).toFixed(2) + 'M' : n >= 1e3 ? +(n / 1e3).toFixed(2) + 'K' : String(+n.toFixed(2));
+        const monthCount = () => Math.max(1, Math.floor(TOTAL_DAYS / 30));
+        const monthEnd = m => m >= monthCount() ? TOTAL_DAYS : m * 30;
 
         // Uygulama Durumu (LocalStorage)
         let appState = {
@@ -513,6 +539,8 @@
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     appState = { ...appState, ...parsed };
+                    const pl = appState.plan;
+                    if (pl && pl.start > 0 && pl.target > pl.start && pl.days >= 2) setPlanParams(pl.start, pl.target, pl.days);
                 }
             } catch (e) {
                 console.error("Veri yükleme hatası:", e);
@@ -585,353 +613,175 @@
             }
         }
 
-        // Balina Radarı + Likit Map
-        const RADAR_URLS = { live: 'https://whaleradar.com/watch?m=btc&layout=focus' };
+        // Balina Radarı + Likit Harita
+        const RADAR_URLS = {
+            live: 'https://whaleradar.com/watch?m=btc&layout=focus'
+        };
 
         function showRadar() {
-            const mode = (appState.radarMode === 'liqmap' || appState.radarMode === 'embed') ? 'liqmap' : 'live'; // eski 'embed' -> 'liqmap'
+            let mode = appState.radarMode;
+            if (mode === 'embed') mode = 'liqmap';
+            if (mode !== 'liqmap') mode = 'live';
+            const isMap = mode === 'liqmap';
             const frame = document.getElementById('radarFrame');
-            const isLive = mode === 'live';
-            frame.classList.toggle('hidden', !isLive);
-            document.getElementById('radarSrc').classList.toggle('hidden', !isLive);
-            document.getElementById('radarOpen').classList.toggle('hidden', !isLive);
-            document.getElementById('liqmapWrap').classList.toggle('hidden', isLive);
-            if (isLive && frame.getAttribute('src') !== RADAR_URLS.live) frame.src = RADAR_URLS.live;
+            frame.style.display = isMap ? 'none' : 'block';
+            document.getElementById('liqMapWrap').style.display = isMap ? 'block' : 'none';
+            document.getElementById('radarSource').style.display = isMap ? 'none' : '';
+            document.getElementById('radarOpenLink').style.display = isMap ? 'none' : '';
+            if (isMap) {
+                loadLiqMap();
+            } else if (frame.getAttribute('src') !== RADAR_URLS.live) {
+                frame.src = RADAR_URLS.live;
+            }
             ['live', 'liqmap'].forEach(m => {
                 const btn = document.getElementById(`radar-${m}`);
                 btn.style.background = m === mode ? '#10b981' : '#0f172a';
                 btn.style.color = m === mode ? '#020617' : '#94a3b8';
             });
-            if (!isLive) {
-                syncLiqRangeButtons();
-                loadLiqMap();
-                clearInterval(liqMapTimer);
-                liqMapTimer = setInterval(() => {
-                    if (currentTab === 'radar' && document.getElementById('radar-liqmap').style.background === 'rgb(16, 185, 129)') loadLiqMap();
-                }, 60000);
-            } else {
-                clearInterval(liqMapTimer);
-            }
         }
+
+        // ---- Likit Harita ----
+        let liqMapData = null, liqMapLoading = false;
+        const fmtUsd = v => v >= 1e9 ? '$' + (v / 1e9).toFixed(1) + 'B' : v >= 1e6 ? '$' + (v / 1e6).toFixed(0) + 'M' : '$' + Math.round(v).toLocaleString();
+
+        async function bmRequest(headers) {
+            const res = await fetch('https://api.blockmetric.io/v1/liqmap/BTC', { headers });
+            if (res.ok) return res;
+            let code = '';
+            try { const j = await res.json(); code = (j.error && (j.error.code + ': ' + j.error.message)) || ''; } catch (_) {}
+            const err = new Error('HTTP ' + res.status + (code ? ' · ' + code : ''));
+            err.bmCode = code.split(':')[0];
+            throw err;
+        }
+
+        async function fetchBlockmetricMap() {
+            const res = await bmRequest({ 'X-Blockmetric-Access': 'public' });
+            const m = (await res.json()).data;
+            const price = m.mark;
+            const lo = price * 0.72, hi = price * 1.55, rows = 64, step = (hi - lo) / rows;
+            const longs = new Array(rows).fill(0), shorts = new Array(rows).fill(0);
+            for (const bk of m.buckets) {
+                if (bk.px < lo || bk.px >= hi) continue;
+                const r = Math.min(rows - 1, Math.floor((bk.px - lo) / step));
+                longs[r] += bk.longUsd || 0; shorts[r] += bk.shortUsd || 0;
+            }
+            return { t: Date.now(), price, lo, hi, rows, step, longs, shorts, source: 'Blockmetric' };
+        }
+
+        async function loadLiqMap() {
+            if (liqMapLoading) return;
+            if (liqMapData && Date.now() - liqMapData.t < 60000) { drawLiqMap(); return; }
+            liqMapLoading = true;
+            try {
+                liqMapData = await fetchBlockmetricMap();
+            } catch (e) {
+                console.warn('Blockmetric alınamadı, tahmini harita kullanılıyor:', e);
+                try { liqMapData = await fetchEstimatedMap(); liqMapData.err = String(e.message || e); }
+                catch (e2) {
+                    document.getElementById('liqMapTime').textContent = 'veri alınamadı';
+                    liqMapLoading = false; return;
+                }
+            }
+            liqMapLoading = false;
+            drawLiqMap();
+        }
+
+        // Yedek: Blockmetric erişilemezse Binance verisinden tahmini harita
+        async function fetchEstimatedMap() {
+            const [kRes, oiRes, pRes] = await Promise.all([
+                fetch('https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=1h&limit=1500'),
+                fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT'),
+                fetch('https://fapi.binance.com/fapi/v1/ticker/price?symbol=BTCUSDT')
+            ]);
+            const k = await kRes.json();
+            const oi = parseFloat((await oiRes.json()).openInterest);
+            const price = parseFloat((await pRes.json()).price);
+            const n = k.length;
+            const sufLow = new Array(n + 1).fill(Infinity), sufHigh = new Array(n + 1).fill(-Infinity);
+            for (let i = n - 1; i >= 0; i--) {
+                sufLow[i] = Math.min(sufLow[i + 1], +k[i][3]);
+                sufHigh[i] = Math.max(sufHigh[i + 1], +k[i][2]);
+            }
+            const tiers = [[5, .15], [10, .30], [25, .28], [50, .17], [100, .10]];
+            const lo = price * 0.72, hi = price * 1.55, rows = 64, step = (hi - lo) / rows;
+            const longs = new Array(rows).fill(0), shorts = new Array(rows).fill(0);
+            let rawTotal = 0;
+            for (let i = 0; i < n; i++) {
+                const entry = (+k[i][2] + +k[i][3] + +k[i][4]) / 3, vol = +k[i][7] / 2;
+                for (const [L, w] of tiers) {
+                    const amt = vol * w; rawTotal += amt * 2;
+                    const ll = entry * (1 - 1 / L + 0.005), sl = entry * (1 + 1 / L - 0.005);
+                    if (ll < price && sufLow[i + 1] > ll && ll >= lo) longs[Math.min(rows - 1, Math.floor((ll - lo) / step))] += amt;
+                    if (sl > price && sufHigh[i + 1] < sl && sl < hi) shorts[Math.min(rows - 1, Math.floor((sl - lo) / step))] += amt;
+                }
+            }
+            const scale = (oi * price) / rawTotal;
+            for (let r = 0; r < rows; r++) { longs[r] *= scale; shorts[r] *= scale; }
+            return { t: Date.now(), price, lo, hi, rows, step, longs, shorts, source: 'Tahmini · Binance Futures verisi' };
+        }
+
+        function drawLiqMap() {
+            const d = liqMapData; if (!d) return;
+            const cv = document.getElementById('liqMapCanvas');
+            if (!cv.offsetWidth) return;
+            const dpr = window.devicePixelRatio || 1, W = cv.offsetWidth, H = 520;
+            cv.width = W * dpr; cv.height = H * dpr;
+            const c = cv.getContext('2d'); c.scale(dpr, dpr); c.clearRect(0, 0, W, H);
+            const axisW = 52, areaW = W - axisW, rowH = H / d.rows;
+            const yOf = p => H - ((p - d.lo) / (d.hi - d.lo)) * H;
+            const pr = Math.floor((d.price - d.lo) / d.step);
+            const maxBar = Math.max(...d.longs, ...d.shorts) || 1;
+
+            // yatay ızgara + fiyat ekseni
+            c.font = '11px system-ui,sans-serif'; c.textBaseline = 'middle';
+            const tick = (d.hi - d.lo) > 60000 ? 10000 : 5000;
+            for (let p = Math.ceil(d.lo / tick) * tick; p < d.hi; p += tick) {
+                const y = yOf(p);
+                c.strokeStyle = 'rgba(148,163,184,.12)'; c.beginPath(); c.moveTo(0, y); c.lineTo(areaW, y); c.stroke();
+                c.fillStyle = '#94a3b8'; c.fillText(p.toLocaleString('en-US'), areaW + 6, y);
+            }
+            // barlar
+            for (let r = 0; r < d.rows; r++) {
+                const y = H - (r + 1) * rowH;
+                const v = r >= pr ? d.shorts[r] : d.longs[r];
+                if (!v) continue;
+                c.fillStyle = r >= pr ? 'rgba(190,80,90,.62)' : 'rgba(80,170,110,.62)';
+                c.fillRect(0, y + 1, (v / maxBar) * areaW * 0.95, Math.max(1, rowH - 2));
+            }
+            // kümülatif çizgiler
+            const cumS = [], cumL = []; let a = 0;
+            for (let r = pr; r < d.rows; r++) { a += d.shorts[r]; cumS.push([r, a]); }
+            const totS = a; a = 0;
+            for (let r = pr - 1; r >= 0; r--) { a += d.longs[r]; cumL.push([r, a]); }
+            const totL = a, maxCum = Math.max(totS, totL) || 1;
+            const line = (pts, col) => {
+                c.strokeStyle = col; c.lineWidth = 2; c.beginPath();
+                pts.forEach(([r, v], i) => { const x = (v / maxCum) * areaW * 0.9, y = H - (r + 0.5) * rowH; i ? c.lineTo(x, y) : c.moveTo(x, y); });
+                c.stroke();
+            };
+            line(cumS, '#f0707d'); line(cumL, '#86e0a8');
+            c.fillStyle = '#0b0e14'; c.fillRect(areaW - 90, H - 24, 88, 20);
+            c.fillStyle = '#e2e8f0'; c.textAlign = 'right'; c.fillText('cum. ' + fmtUsd(totL), areaW - 6, H - 14); c.textAlign = 'left';
+            // güncel fiyat
+            const py = yOf(d.price);
+            c.setLineDash([4, 4]); c.strokeStyle = '#e2e8f0'; c.lineWidth = 1;
+            c.beginPath(); c.moveTo(0, py); c.lineTo(areaW, py); c.stroke(); c.setLineDash([]);
+            c.fillStyle = '#f1f5f9'; c.fillRect(areaW, py - 10, axisW, 20);
+            c.fillStyle = '#0f172a'; c.font = 'bold 11px system-ui,sans-serif';
+            c.fillText(Math.round(d.price).toLocaleString('en-US'), areaW + 4, py);
+
+            document.getElementById('liqMapTotal').textContent = fmtUsd(totL + totS);
+            document.getElementById('liqMapLong').textContent = fmtUsd(totL);
+            document.getElementById('liqMapShort').textContent = fmtUsd(totS);
+            document.getElementById('liqMapTime').textContent = 'şimdi · ' + d.source + (d.err ? ' (' + d.err + ')' : '');
+        }
+        window.addEventListener('resize', () => { if (liqMapData && document.getElementById('liqMapWrap').style.display !== 'none') drawLiqMap(); });
 
         function setRadarMode(mode) {
             appState.radarMode = mode;
             saveState();
             showRadar();
         }
-
-        // ---- Likit Map (tahmini tasfiye haritası) ----
-        // [kaldıraç, ağırlık]
-        const LIQ_TIERS = [[3, .05], [5, .10], [10, .25], [25, .30], [50, .20], [100, .10]];
-        let liqMapData = null, liqMapSeq = 0, liqMapTimer = null;
-
-        function liqRange() { return [7, 30, 90].includes(appState.liqRange) ? appState.liqRange : 30; }
-
-        function syncLiqRangeButtons() {
-            [7, 30, 90].forEach(d => {
-                const b = document.getElementById(`lm-r-${d}`);
-                b.style.background = d === liqRange() ? '#10b981' : '#0f172a';
-                b.style.color = d === liqRange() ? '#020617' : '#94a3b8';
-            });
-        }
-
-        function setLiqRange(d) {
-            appState.liqRange = d;
-            saveState();
-            syncLiqRangeButtons();
-            loadLiqEstimate();
-        }
-
-        function computeLiqMap(c, price, oiUsd) {
-            const n = c.length;
-            const sufMin = new Array(n + 1), sufMax = new Array(n + 1);
-            sufMin[n] = Infinity; sufMax[n] = -Infinity;
-            for (let i = n - 1; i >= 0; i--) {
-                sufMin[i] = Math.min(c[i].l, sufMin[i + 1]);
-                sufMax[i] = Math.max(c[i].h, sufMax[i + 1]);
-            }
-            const lo = price * 0.72, hi = price * 1.5, bins = 90, step = (hi - lo) / bins;
-            const longs = new Float64Array(bins), shorts = new Float64Array(bins);
-            for (let i = 0; i < n; i++) {
-                const e = (c[i].h + c[i].l + c[i].c) / 3;
-                for (const [lev, w] of LIQ_TIERS) {
-                    const amt = c[i].q * w * 0.5;
-                    const ll = e * (1 - 1 / lev + 0.005);
-                    const sl = e * (1 + 1 / lev - 0.005);
-                    if (ll >= lo && ll < price && sufMin[i + 1] > ll) longs[Math.min(bins - 1, Math.floor((ll - lo) / step))] += amt;
-                    if (sl <= hi && sl > price && sufMax[i + 1] < sl) shorts[Math.min(bins - 1, Math.floor((sl - lo) / step))] += amt;
-                }
-            }
-            let tl = 0, ts = 0;
-            for (let b = 0; b < bins; b++) { tl += longs[b]; ts += shorts[b]; }
-            // Toplam havuzu açık pozisyon (OI) büyüklüğüne ölçekle; OI yoksa sabit oran
-            const scale = oiUsd && (tl + ts) > 0 ? oiUsd / (tl + ts) : 0.02;
-            for (let b = 0; b < bins; b++) { longs[b] *= scale; shorts[b] *= scale; }
-            return { lo, hi, bins, step, price, longs, shorts, totalLong: tl * scale, totalShort: ts * scale, days: liqRange(), at: Date.now() };
-        }
-
-        async function loadLiqEstimate() {
-            const seq = ++liqMapSeq;
-            const st = document.getElementById('liqmapStatus');
-            const limit = { 7: 42, 30: 180, 90: 540 }[liqRange()];
-            if (!liqMapData) st.textContent = 'Yükleniyor…';
-            try {
-                const base = 'https://fapi.binance.com/fapi/v1';
-                const [kr, pr, oir] = await Promise.all([
-                    fetch(`${base}/klines?symbol=BTCUSDT&interval=4h&limit=${limit}`),
-                    fetch(`${base}/ticker/price?symbol=BTCUSDT`),
-                    fetch(`${base}/openInterest?symbol=BTCUSDT`).catch(() => null)
-                ]);
-                if (!kr.ok || !pr.ok) throw new Error('HTTP');
-                const raw = await kr.json();
-                const price = +(await pr.json()).price;
-                let oiUsd = 0;
-                try { if (oir && oir.ok) oiUsd = +(await oir.json()).openInterest * price; } catch (e) {}
-                if (seq !== liqMapSeq) return;
-                const candles = raw.map(r => ({ h: +r[2], l: +r[3], c: +r[4], q: +r[7] }));
-                liqMapData = computeLiqMap(candles, price, oiUsd); liqMapData.src = 'est'; setLiqSource('est');
-                st.textContent = `BTCUSDT · 4s · son ${liqRange()}g · ${new Date().toLocaleTimeString('tr-TR')}`;
-                drawLiqMap();
-            } catch (err) {
-                if (seq !== liqMapSeq) return;
-                console.error('Likit map verisi alınamadı:', err);
-                st.textContent = liqMapData ? 'Güncelleme alınamadı' : 'Veri alınamadı (bağlantıyı kontrol edin)';
-                if (liqMapData) drawLiqMap();
-            }
-        }
-
-
-        // ---- Blockmetric API (gerçek Hyperliquid pozisyon verisi) ----
-        const BM_BASE = 'https://api.blockmetric.io/v1';
-        function getBmKey() { try { return localStorage.getItem('bm_api_key') || ''; } catch (e) { return ''; } }
-        function toggleBmKeyBox() {
-            const box = document.getElementById('bmKeyBox');
-            box.classList.toggle('hidden');
-            document.getElementById('bmKeyInput').value = '';
-        }
-        function saveBmKey() {
-            const v = document.getElementById('bmKeyInput').value.trim();
-            try { if (v) localStorage.setItem('bm_api_key', v); else localStorage.removeItem('bm_api_key'); } catch (e) {}
-            document.getElementById('bmKeyBox').classList.add('hidden');
-            document.getElementById('bmKeyInput').value = '';
-            liqMapData = null;
-            loadLiqMap();
-        }
-        function setLiqSource(src) {
-            document.querySelectorAll('[data-est]').forEach(b => b.style.display = src === 'est' ? '' : 'none');
-            document.getElementById('liqmapNote').textContent = src === 'api'
-                ? 'Kaynak: Blockmetric API · Hyperliquid zincir üstü gerçek pozisyonlar. Kırmızı: üstteki short tasfiyeleri, yeşil: alttaki long tasfiyeleri. Yatırım tavsiyesi değildir.'
-                : 'Binance USDT-M BTCUSDT 4s mum hacmi + kaldıraç katmanlarından hesaplanan TAHMİNİ tasfiye haritası (gerçek veri değil). Yatırım tavsiyesi değildir.';
-        }
-
-        const bmNum = v => { const n = typeof v === 'string' ? parseFloat(v) : v; return typeof n === 'number' && isFinite(n) ? n : null; };
-        const bmPick = (o, keys) => { for (const k of keys) { const n = bmNum(o[k]); if (n !== null) return n; } return null; };
-        function bmPrice(r) {
-            const p = bmPick(r, ['price', 'px', 'level', 'bucket', 'bucketPrice', 'mid', 'liqPrice', 'p']);
-            if (p !== null) return p;
-            const lo = bmPick(r, ['priceLow', 'priceFrom', 'lo', 'from', 'low', 'min']);
-            const hi = bmPick(r, ['priceHigh', 'priceTo', 'hi', 'to', 'high', 'max']);
-            return lo !== null && hi !== null ? (lo + hi) / 2 : null;
-        }
-        function bmSides(r) {
-            let l = bmPick(r, ['longUsd', 'long_usd', 'longs', 'long', 'longUSD', 'longNotional']);
-            let s = bmPick(r, ['shortUsd', 'short_usd', 'shorts', 'short', 'shortUSD', 'shortNotional']);
-            if (l === null && s === null && typeof r.side === 'string') {
-                const u = bmPick(r, ['usd', 'notional', 'value', 'amount']);
-                if (u !== null) { if (/long|buy/i.test(r.side)) l = u; else s = u; }
-            }
-            return (l === null && s === null) ? null : { l: l || 0, s: s || 0 };
-        }
-        const bmRowOk = r => r && typeof r === 'object' && !Array.isArray(r) && bmPrice(r) !== null && bmSides(r) !== null;
-        function bmFindRows(o, depth = 0) {
-            if (!o || typeof o !== 'object' || depth > 4) return null;
-            if (Array.isArray(o)) {
-                if (o.length >= 5 && bmRowOk(o[0])) return o;
-                for (const x of o.slice(0, 3)) { const r = bmFindRows(x, depth + 1); if (r) return r; }
-                return null;
-            }
-            for (const k of Object.keys(o)) { const r = bmFindRows(o[k], depth + 1); if (r) return r; }
-            return null;
-        }
-        function bmFindMark(o, depth = 0) {
-            if (!o || typeof o !== 'object' || depth > 2 || Array.isArray(o)) return null;
-            const m = bmPick(o, ['markPrice', 'markPx', 'mark', 'midPrice', 'currentPrice', 'price', 'spot']);
-            if (m !== null) return m;
-            for (const k of Object.keys(o)) { const r = bmFindMark(o[k], depth + 1); if (r) return r; }
-            return null;
-        }
-
-        function buildFromBm(json, fallbackPrice) {
-            const data = json && json.data !== undefined ? json.data : json;
-            const rows = bmFindRows(data);
-            if (!rows) return null;
-            const price = bmFindMark(data) || fallbackPrice;
-            if (!price) return null;
-            const pts = rows.map(r => ({ p: bmPrice(r), ...(() => { const x = bmSides(r); return { l: x.l, s: x.s }; })() })).filter(x => x.p > 0);
-            const lo = price * 0.72, hi = price * 1.5, bins = 90, step = (hi - lo) / bins;
-            const longs = new Float64Array(bins), shorts = new Float64Array(bins);
-            let tl = 0, ts = 0;
-            for (const x of pts) {
-                if (x.p < lo || x.p > hi) continue;
-                const b = Math.min(bins - 1, Math.floor((x.p - lo) / step));
-                // fiyatın altı = long, üstü = short (gelen alan hangisi olursa olsun)
-                if (x.p < price) { longs[b] += x.l + 0; tl += x.l; if (x.s) { shorts[b] += x.s; ts += x.s; } }
-                else { shorts[b] += x.s; ts += x.s; if (x.l) { longs[b] += x.l; tl += x.l; } }
-            }
-            return { lo, hi, bins, step, price, longs, shorts, totalLong: tl, totalShort: ts, src: 'api', days: 0, at: Date.now() };
-        }
-
-        async function loadLiqMap() {
-            const key = getBmKey();
-            const st = document.getElementById('liqmapStatus');
-            const dbgWrap = document.getElementById('liqmapDebugWrap');
-            dbgWrap.classList.add('hidden');
-            if (!key) {
-                document.getElementById('bmKeyBox').classList.remove('hidden');
-                st.textContent = 'Gerçek veri için API anahtarı girin (tahmini model gösteriliyor)';
-                return loadLiqEstimate();
-            }
-            const seq = ++liqMapSeq;
-            if (!liqMapData) st.textContent = 'Blockmetric yükleniyor…';
-            try {
-                const [res, tk] = await Promise.all([
-                    fetch(`${BM_BASE}/liqmap/BTC`, { headers: { Authorization: 'Bearer ' + key } }),
-                    fetch('https://fapi.binance.com/fapi/v1/ticker/price?symbol=BTCUSDT').then(r => r.json()).catch(() => null)
-                ]);
-                const text = await res.text();
-                if (seq !== liqMapSeq) return;
-                if (!res.ok) throw new Error(res.status === 401 || res.status === 403 ? 'Anahtar geçersiz/yetkisiz (' + res.status + ')' : 'HTTP ' + res.status);
-                let json; try { json = JSON.parse(text); } catch (e) { throw new Error('JSON değil'); }
-                const d = buildFromBm(json, tk ? +tk.price : 0);
-                if (!d) {
-                    document.getElementById('liqmapDebug').textContent = text.slice(0, 4000);
-                    dbgWrap.classList.remove('hidden');
-                    throw new Error('Yanıt şeması tanınamadı');
-                }
-                liqMapData = d;
-                setLiqSource('api');
-                st.textContent = `Blockmetric · Hyperliquid · ${new Date().toLocaleTimeString('tr-TR')}`;
-                drawLiqMap();
-            } catch (err) {
-                if (seq !== liqMapSeq) return;
-                console.error('Blockmetric hatası:', err);
-                const msg = err instanceof TypeError ? 'Blockmetric’e bağlanılamadı (CORS/ağ)' : err.message;
-                await loadLiqEstimate();
-                if (seq === liqMapSeq || true) document.getElementById('liqmapStatus').textContent = msg + ' · tahmini model gösteriliyor';
-            }
-        }
-
-        function fmtUsdShort(v) {
-            return v >= 1e9 ? '$' + (v / 1e9).toFixed(2) + 'B' : '$' + Math.round(v / 1e6) + 'M';
-        }
-
-        function drawLiqMap() {
-            const cv = document.getElementById('liqmapCanvas');
-            const d = liqMapData;
-            if (!cv || !d || !cv.clientWidth) return;
-            const dpr = window.devicePixelRatio || 1;
-            const W = cv.clientWidth, H = cv.clientHeight;
-            cv.width = W * dpr; cv.height = H * dpr;
-            const ctx = cv.getContext('2d');
-            ctx.scale(dpr, dpr);
-            ctx.fillStyle = '#0b0f17';
-            ctx.fillRect(0, 0, W, H);
-
-            const padR = 58, padT = 8, padB = 8;
-            const plotW = W - padR, plotH = H - padT - padB;
-            const yOf = p => padT + (d.hi - p) / (d.hi - d.lo) * plotH;
-            const binH = plotH / d.bins;
-            const pb = Math.floor((d.price - d.lo) / d.step); // fiyatın bulunduğu bin
-
-            let maxBin = 0;
-            for (let b = 0; b < d.bins; b++) maxBin = Math.max(maxBin, d.longs[b], d.shorts[b]);
-            const maxCum = Math.max(d.totalLong, d.totalShort) || 1;
-
-            // Barlar
-            for (let b = 0; b < d.bins; b++) {
-                const y = padT + (d.bins - 1 - b) * binH;
-                if (d.shorts[b] > 0) {
-                    ctx.fillStyle = 'rgba(176,74,88,.72)';
-                    ctx.fillRect(0, y + .5, d.shorts[b] / maxBin * plotW * .62, Math.max(1, binH - 1));
-                }
-                if (d.longs[b] > 0) {
-                    ctx.fillStyle = 'rgba(74,138,98,.78)';
-                    ctx.fillRect(0, y + .5, d.longs[b] / maxBin * plotW * .62, Math.max(1, binH - 1));
-                }
-            }
-
-            // Kümülatif çizgiler
-            const yPrice = yOf(d.price);
-            ctx.lineWidth = 2; ctx.lineJoin = 'round';
-            ctx.strokeStyle = '#e8657a';
-            ctx.beginPath(); ctx.moveTo(0, yPrice);
-            let cum = 0;
-            for (let b = pb; b < d.bins; b++) {
-                cum += d.shorts[b];
-                const x = cum / maxCum * plotW * .97;
-                ctx.lineTo(x, yOf(d.lo + b * d.step));
-                ctx.lineTo(x, yOf(d.lo + (b + 1) * d.step));
-            }
-            ctx.stroke();
-            ctx.strokeStyle = '#7be3b0';
-            ctx.beginPath(); ctx.moveTo(0, yPrice);
-            cum = 0;
-            for (let b = pb; b >= 0; b--) {
-                cum += d.longs[b];
-                const x = cum / maxCum * plotW * .97;
-                ctx.lineTo(x, yOf(d.lo + (b + 1) * d.step));
-                ctx.lineTo(x, yOf(d.lo + b * d.step));
-            }
-            ctx.stroke();
-
-            // Sağ fiyat ekseni
-            const range = d.hi - d.lo, rough = range / 8, pw = Math.pow(10, Math.floor(Math.log10(rough)));
-            const tickStep = [1, 2, 2.5, 5, 10].map(m => m * pw).find(v => v >= rough);
-            ctx.font = '12px Inter, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#9aa7ba';
-            for (let p = Math.ceil(d.lo / tickStep) * tickStep; p < d.hi; p += tickStep) {
-                const y = yOf(p);
-                if (Math.abs(y - yPrice) < 16 || y < 14 || y > H - 14) continue;
-                ctx.fillText(Math.round(p).toLocaleString('tr-TR'), plotW + 8, y);
-            }
-
-            // Güncel fiyat çizgisi + etiketler
-            ctx.setLineDash([4, 4]); ctx.strokeStyle = '#9aa7ba'; ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.moveTo(0, yPrice); ctx.lineTo(plotW, yPrice); ctx.stroke();
-            ctx.setLineDash([]);
-            ctx.fillStyle = '#f1f5f9';
-            ctx.fillRect(plotW + 2, yPrice - 10, padR - 2, 20);
-            ctx.fillStyle = '#0b0f17'; ctx.font = '700 12px Inter, sans-serif';
-            ctx.fillText(Math.round(d.price).toLocaleString('tr-TR'), plotW + 6, yPrice);
-            ctx.fillStyle = '#131a27';
-            ctx.fillRect(plotW + 2, yPrice + 11, padR - 2, 20);
-            ctx.fillStyle = '#8b7cf6';
-            ctx.fillText('Canlı', plotW + 8, yPrice + 21);
-
-            // Başlık kutusu
-            ctx.fillStyle = 'rgba(0,0,0,.6)';
-            ctx.fillRect(0, 0, 150, 42);
-            ctx.textBaseline = 'alphabetic'; ctx.fillStyle = '#f1f5f9'; ctx.font = '700 13px Inter, sans-serif';
-            ctx.fillText('Likit haritası', 10, 18);
-            ctx.fillStyle = '#9aa7ba'; ctx.font = '12px Inter, sans-serif';
-            ctx.fillText(d.src === 'api' ? 'şimdi · Hyperliquid' : 'tahmini · son ' + d.days + 'g', 10, 35);
-
-            // Kümülatif toplam etiketleri
-            ctx.textAlign = 'right'; ctx.font = '12px Inter, sans-serif';
-            ctx.fillStyle = 'rgba(0,0,0,.65)';
-            ctx.fillRect(plotW - 112, H - 30, 108, 22);
-            ctx.fillStyle = '#7be3b0';
-            ctx.fillText('küm. ' + fmtUsdShort(d.totalLong), plotW - 10, H - 14);
-            ctx.fillStyle = 'rgba(0,0,0,.65)';
-            ctx.fillRect(plotW - 112, 8, 108, 22);
-            ctx.fillStyle = '#e8657a';
-            ctx.fillText('küm. ' + fmtUsdShort(d.totalShort), plotW - 10, 24);
-            ctx.textAlign = 'left';
-        }
-
-        window.addEventListener('resize', () => {
-            if (currentTab === 'radar' && liqMapData) drawLiqMap();
-        });
 
         // Banner Kapatma
         function dismissBanner() {
@@ -944,7 +794,72 @@
         function openSettingsModal() {
             resetClickCount = 0;
             document.getElementById('resetConfirmBtn').textContent = "Tüm İşaretlemeleri Sıfırla";
+            document.getElementById('setStart').value = START_BALANCE;
+            document.getElementById('setTarget').value = TARGET_BALANCE;
+            setPlanMode('steps', true);
+            document.getElementById('setValue').value = TOTAL_DAYS;
+            previewPlan();
             document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        // ---- Hedef planı ayarları ----
+        let planMode = 'steps';
+        function setPlanMode(mode, keepValue) {
+            planMode = mode;
+            const on = 'py-1.5 rounded-lg text-[11px] font-semibold bg-emerald-500 text-slate-950';
+            const off = 'py-1.5 rounded-lg text-[11px] font-semibold text-slate-400';
+            document.getElementById('planModeSteps').className = mode === 'steps' ? on : off;
+            document.getElementById('planModeRate').className = mode === 'rate' ? on : off;
+            document.getElementById('planValueLabel').textContent = mode === 'steps' ? 'Adım sayısı' : 'Adım başına bileşik artış (%)';
+            if (!keepValue) {
+                document.getElementById('setValue').value = mode === 'steps' ? TOTAL_DAYS : +(DAILY_RATE * 100).toFixed(4);
+                previewPlan();
+            }
+        }
+
+        function computePlanInput() {
+            const S = parseFloat(document.getElementById('setStart').value);
+            const T = parseFloat(document.getElementById('setTarget').value);
+            const v = parseFloat(document.getElementById('setValue').value);
+            if (!(S > 0) || !(T > S)) return { err: 'Hedef, başlangıçtan büyük olmalı.' };
+            if (!(v > 0)) return { err: planMode === 'steps' ? 'Adım sayısı girin.' : 'Artış yüzdesini girin.' };
+            let days;
+            if (planMode === 'steps') days = Math.round(v);
+            else days = Math.ceil(Math.log(T / S) / Math.log(1 + v / 100) - 1e-9);
+            if (!(days >= 2)) return { err: 'En az 2 adım gerekir.' };
+            if (days > 2000) return { err: 'Adım sayısı 2000\'i geçemez (' + days + ').' };
+            return { S, T, days, rate: (Math.pow(T / S, 1 / days) - 1) * 100 };
+        }
+
+        function previewPlan() {
+            const r = computePlanInput(), el = document.getElementById('planPreview'), btn = document.getElementById('planApplyBtn');
+            btn.disabled = !!r.err; btn.style.opacity = r.err ? .5 : 1;
+            el.innerHTML = r.err ? '<span style="color:#fb7185">' + r.err + '</span>'
+                : `<b class="text-slate-200">${r.days}</b> adım · adım başına <b class="text-slate-200">%${r.rate.toFixed(3).replace('.', ',')}</b> · ${fmtPlain(r.S)} → ${fmtPlain(r.T)} USDT`;
+        }
+
+        function applyPlanFromSettings() {
+            const r = computePlanInput();
+            if (r.err) return;
+            setPlanParams(r.S, r.T, r.days);
+            appState.plan = { start: r.S, target: r.T, days: r.days };
+            appState.completedDays = appState.completedDays.filter(d => d <= r.days);
+            saveState();
+            selectedMonthFilter = 0;
+            initMonthFilters();
+            renderApp();
+            closeSettingsModal();
+            showToast(`Plan güncellendi: ${r.days} adım, %${r.rate.toFixed(2).replace('.', ',')} / adım`);
+        }
+
+        function updatePlanLabels() {
+            const rate = (DAILY_RATE * 100).toFixed(2).replace('.', ',');
+            document.title = `${fmtShort(START_BALANCE)} → ${fmtShort(TARGET_BALANCE)} | ${TOTAL_DAYS} İşlemlik Büyüme Planı`;
+            document.getElementById('planTitle').textContent = `${fmtPlain(START_BALANCE)} → ${fmtPlain(TARGET_BALANCE)} USDT`;
+            document.getElementById('planRangeText').textContent = `${fmtPlain(START_BALANCE)} → ${fmtPlain(TARGET_BALANCE)} USDT`;
+            document.getElementById('planSubtitle').textContent = `${TOTAL_DAYS} İşlemlik Bileşik Büyüme (%${rate} / İşlem)`;
+            document.getElementById('tabAllLabel').textContent = `Tüm ${TOTAL_DAYS} İşlem`;
+            document.getElementById('growthTitle').textContent = `${TOTAL_DAYS} İşlemlik Bileşik Büyüme Eğrisi`;
         }
 
         function closeSettingsModal() {
@@ -970,15 +885,15 @@
         function initMonthFilters() {
             const container = document.getElementById('monthFilterContainer');
             let html = `<button onclick="setMonthFilter(0)" id="mfilter-0" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-emerald-500 text-slate-950">Tümü</button>`;
-            for (let m = 1; m <= 12; m++) {
-                html += `<button onclick="setMonthFilter(${m})" id="mfilter-${m}" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">${(m - 1) * 30 + 1}–${m === 12 ? 365 : m * 30}</button>`;
+            for (let m = 1; m <= monthCount(); m++) {
+                html += `<button onclick="setMonthFilter(${m})" id="mfilter-${m}" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">${(m - 1) * 30 + 1}–${monthEnd(m)}</button>`;
             }
             container.innerHTML = html;
         }
 
         function setMonthFilter(monthIdx) {
             selectedMonthFilter = monthIdx;
-            for (let m = 0; m <= 12; m++) {
+            for (let m = 0; m <= monthCount(); m++) {
                 const btn = document.getElementById(`mfilter-${m}`);
                 if (!btn) continue;
                 if (m === monthIdx) {
@@ -1005,7 +920,7 @@
 
         // Satır HTML Oluşturucu
         function createDayRowHTML(item) {
-            const isMilestone = item.day % 30 === 0 || item.day === 365;
+            const isMilestone = item.day % 30 === 0 || item.day === TOTAL_DAYS;
             const rowBg = item.completed
                 ? 'bg-slate-900/40 border-slate-800/60 opacity-75'
                 : (isMilestone ? 'bg-slate-900/90 border-emerald-500/30' : 'bg-slate-900/80 border-slate-800');
@@ -1053,7 +968,7 @@
                 if (query !== '' && !String(item.day).includes(query)) return false;
                 if (selectedMonthFilter > 0) {
                     const startDay = (selectedMonthFilter - 1) * 30 + 1;
-                    const endDay = selectedMonthFilter === 12 ? 365 : selectedMonthFilter * 30;
+                    const endDay = monthEnd(selectedMonthFilter);
                     if (item.day < startDay || item.day > endDay) return false;
                 }
                 return true;
@@ -1148,9 +1063,9 @@
             ctx.textAlign = 'left';
             ctx.fillText('1. İşlem', padL, h - 5);
             ctx.textAlign = 'center';
-            ctx.fillText('180. İşlem', w / 2, h - 5);
+            ctx.fillText(Math.round(TOTAL_DAYS / 2) + '. İşlem', w / 2, h - 5);
             ctx.textAlign = 'right';
-            ctx.fillText('365. İşlem (500K)', w - padR, h - 5);
+            ctx.fillText(TOTAL_DAYS + '. İşlem (' + fmtShort(TARGET_BALANCE) + ')', w - padR, h - 5);
         }
 
         // Ana Render Fonksiyonu
@@ -1159,6 +1074,7 @@
                 document.getElementById('pwaBanner').classList.add('hidden');
             }
 
+            updatePlanLabels();
             cachedPlan = generatePlanData();
 
             // İlerleme Özeti
@@ -1167,7 +1083,7 @@
             const activeBalance = highestCompleted > 0 ? cachedPlan[highestCompleted - 1].endBal : START_BALANCE;
 
             document.getElementById('summaryCurrentBalance').textContent = formatMoney(activeBalance);
-            document.getElementById('summaryCompletedCount').textContent = `${completedCount} / 365 İşlem`;
+            document.getElementById('summaryCompletedCount').textContent = `${completedCount} / ${TOTAL_DAYS} İşlem`;
             const pct = Math.max(0.8, (completedCount / TOTAL_DAYS) * 100);
             document.getElementById('summaryProgressBar').style.width = `${pct}%`;
 
@@ -1181,7 +1097,7 @@
 
             const heroBadge = document.getElementById('heroBadge');
             if (completedCount === TOTAL_DAYS) {
-                heroBadge.textContent = "TEBRİKLER! 365 İŞLEM TAMAMLANDI";
+                heroBadge.textContent = `TEBRİKLER! ${TOTAL_DAYS} İŞLEM TAMAMLANDI`;
                 heroBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500 text-slate-950";
             } else {
                 heroBadge.textContent = "SIRADAKİ İŞLEM";
@@ -1203,7 +1119,7 @@
             document.getElementById('upcomingList').innerHTML = upcomingItems.map(d => createDayRowHTML(d)).join('');
 
             // Ara Hedefler (İstatistik Sekmesi)
-            const milestoneDays = [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 365];
+            const milestoneDays = []; for (let d = 30; d < TOTAL_DAYS; d += 30) milestoneDays.push(d); milestoneDays.push(TOTAL_DAYS);
             document.getElementById('monthlyMilestonesList').innerHTML = milestoneDays.map((dNum, i) => {
                 const item = cachedPlan[dNum - 1];
                 return `
